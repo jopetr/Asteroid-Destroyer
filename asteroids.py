@@ -256,13 +256,15 @@ def run_game(height, width, display_surface):
         big_number_images[i] = pygame.transform.scale(big_number_images[i], (50, 50))
 
     asteroid_images = []
+    asteroid_images.append(pygame.image.load("images/asteroid0.png").convert_alpha())
     asteroid_images.append(pygame.image.load("images/asteroid1.png").convert_alpha())
     asteroid_images.append(pygame.image.load("images/asteroid2.png").convert_alpha())
     asteroid_images.append(pygame.image.load("images/asteroid3.png").convert_alpha())
     asteroid_images.append(pygame.image.load("images/asteroid4.png").convert_alpha())
-    asteroid_images.append(pygame.image.load("images/asteroid5.png").convert_alpha())
+    
 
     explosion_images = []
+    explosion_images.append(pygame.image.load("images/explosion0.png").convert_alpha())
     explosion_images.append(pygame.image.load("images/explosion1.png").convert_alpha())
     explosion_images.append(pygame.image.load("images/explosion2.png").convert_alpha())
     explosion_images.append(pygame.image.load("images/explosion3.png").convert_alpha())
@@ -273,7 +275,7 @@ def run_game(height, width, display_surface):
     explosion_images.append(pygame.image.load("images/explosion8.png").convert_alpha())
     explosion_images.append(pygame.image.load("images/explosion9.png").convert_alpha())
     explosion_images.append(pygame.image.load("images/explosion10.png").convert_alpha())
-    explosion_images.append(pygame.image.load("images/explosion11.png").convert_alpha())
+    
 
     life_image = pygame.image.load("images/life.png").convert_alpha()
     life_image = pygame.transform.scale(life_image, (width/25, height/25))
@@ -300,7 +302,7 @@ def run_game(height, width, display_surface):
     rotate_right = False
     turn_speed = 3
 
-    asteroid_velocity = 0.001
+    asteroid_velocity = 0.002
 
     asteroids_remaining = 6
     asteroids = generate_asteroids(asteroids_remaining, width, height, pygame.time.get_ticks())
@@ -355,7 +357,10 @@ def run_game(height, width, display_surface):
         
         if asteroids_remaining == 0 and len(asteroids)==0:
             wave+=1
-            asteroid_velocity+=0.0003
+            if asteroid_velocity < 0.01:
+                asteroid_velocity+=0.0003
+            else:
+                asteroid_velocity = 0.01
             asteroids_remaining = 6 + 2*(wave-1)
             asteroids = generate_asteroids(asteroids_remaining, width, height, curr_ticks)
 
